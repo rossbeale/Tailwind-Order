@@ -21,8 +21,6 @@ class TailwindOrderCommand(sublime_plugin.TextCommand):
             temp_classes = temp_classes.split(' ')
             other_classes = temp_classes[:]
             sorted_class = ""
-            print(temp_classes)
-            print(other_classes)
             for temp_class in temp_classes:
                 for tw_class in file:
                     if temp_class.startswith(tw_class['name']):

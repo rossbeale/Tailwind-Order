@@ -6,20 +6,13 @@ import re
 
 class TailwindOrderCommand(sublime_plugin.TextCommand):
 
-    def create_filters(self):
-        settings = sublime.load_settings('tailwind-order.sublime-settings')
-        filter_by = {}
-        for item in settings.get('filter_by'):
-            filter_by[item] = []
-        return filter_by
-
     def run(self, edit):
         file = sublime.load_resource(sublime.find_resources('data.json')[0])
         file = json.loads(file)
         dif = 0
         classes = self.view.find_all('(?<=class=")(.*?)(?=")')
         for item in classes:
-            filters = self.create_filters()
+            filters = {}
             item.a += dif
             item.b += dif
             region = item
@@ -30,27 +23,21 @@ class TailwindOrderCommand(sublime_plugin.TextCommand):
             sorted_class = ""
             for temp_class in temp_classes:
                 for tw_class in file:
+                    print(tw_class)
                     if temp_class.startswith(tw_class['name']):
+                        print(temp_class)
                         if tw_class['kind'] in filters.keys() and temp_class not in filters[tw_class['kind']]:
+                            print(filters[tw_class['kind']])
                             filters[tw_class['kind']].append(temp_class)
                             if temp_class in other_classes:
                                 other_classes.remove(temp_class)
             for kind in filters.keys():
-                print(kind)
-                print(filters[kind])
                 filters[kind] = sorted(filters[kind])
-                print(filters[kind])
-                print(sorted_class)
                 sorted_class += ' '.join(filters[kind])
-                print(sorted_class)
                 if filters[kind]:
                     sorted_class += ' '
-                print(sorted_class)
-            print(other_classes)
             if other_classes:
                 sorted_class += ' '.join(sorted(other_classes))
-            print(filters)
-            print('***')
             self.view.replace(edit, region, sorted_class)
             dif += len(sorted_class) - len(str(self.view.substr(item)))
 

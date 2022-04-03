@@ -37,10 +37,14 @@ class TailwindOrderCommand(sublime_plugin.TextCommand):
                                 other_classes.remove(temp_class)
             for kind in filters.keys():
                 print(kind)
+                print(filters[kind])
                 filters[kind] = sorted(filters[kind])
+                print(filters[kind])
+                print(sorted_class)
                 sorted_class += ' '.join(filters[kind])
                 if filters[kind]:
                     sorted_class += ' '
+            print(other_classes)
             if other_classes:
                 sorted_class += ' '.join(sorted(other_classes))
             print(filters)

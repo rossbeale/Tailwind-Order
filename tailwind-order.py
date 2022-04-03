@@ -31,8 +31,6 @@ class TailwindOrderCommand(sublime_plugin.TextCommand):
             for temp_class in temp_classes:
                 for tw_class in file:
                     if temp_class.startswith(tw_class['name']):
-                        print(temp_class)
-                        print(tw_class['name'])
                         if tw_class['kind'] in filters.keys() and temp_class not in filters[tw_class['kind']]:
                             filters[tw_class['kind']].append(temp_class)
                             if temp_class in other_classes:
@@ -40,7 +38,7 @@ class TailwindOrderCommand(sublime_plugin.TextCommand):
             for kind in filters.keys():
                 filters[kind] = sorted(filters[kind])
                 sorted_class += ' '.join(filters[kind])
-                if filters[kind]:
+                if filters[kind] and len(classes) > 1:
                     sorted_class += ' '
             if other_classes:
                 sorted_class += ' '.join(sorted(other_classes))

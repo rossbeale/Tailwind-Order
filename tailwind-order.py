@@ -36,12 +36,14 @@ class TailwindOrderCommand(sublime_plugin.TextCommand):
                             if temp_class in other_classes:
                                 other_classes.remove(temp_class)
             for kind in filters.keys():
+                print(kind)
                 filters[kind] = sorted(filters[kind])
                 sorted_class += ' '.join(filters[kind])
-                if filters[kind] and len(classes) > 1:
+                if filters[kind]:
                     sorted_class += ' '
             if other_classes:
                 sorted_class += ' '.join(sorted(other_classes))
+            print(filters)
             self.view.replace(edit, region, sorted_class)
             dif += len(sorted_class) - len(str(self.view.substr(item)))
 
